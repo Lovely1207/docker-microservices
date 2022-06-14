@@ -1,0 +1,138 @@
+java.io.IOException: Cannot run program "docker" (in directory "/var/jenkins_home/workspace/FirstNodeJs"): error=2, No such file or directory
+cd -ahl /var/run/docker.sock
+docker exec -it jenkins bash
+docker build -t jenkins-docker .
+docker run -p 8080:8080 -p50000:50000 -v /var/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock --name jenkins -d jenkins-docker
+https://github.com/wardviaene/docker-demo
+
+CONTAINER ID   IMAGE                    COMMAND                  CREATED             STATUS                     PORTS                                                        NAMES
+4af339e6162c   c005b5817612             "docker-entrypoint.s…"   7 minutes ago       Created                                                                                 jenkins
+477f24f602ac   jenkins/jenkins:latest   "/sbin/tini -- /usr/…"   About an hour ago   Up 4 minutes               0.0.0.0:5000->5000/tcp, 0.0.0.0:8080->8080/tcp, 50000/tcp    gracious_swanson
+10350a8baafe   jenkins/jenkins:latest   "/sbin/tini -- /usr/…"   6 hours ago         Exited (255) 2 hours ago   0.0.0.0:5000->5000/tcp, 0.0.0.0:8080->8080/tcp, 50000/tcp    hopeful_mccarthy
+d42e9bf6b58f   jenkins/jenkins:latest   "/sbin/tini -- /usr/…"   7 hours ago         Up About an hour           0.0.0.0:8081->8081/tcp, 8080/tcp, 0.0.0.0:50000->50000/tcp   sad_gould
+9c29cc148f37   docker/getting-started   "/docker-entrypoint.…"   7 hours ago         Up About an hour           0.0.0.0:80->80/tcp                                           funny_chatterjee
+FROM jenkins
+USER root
+
+RUN mkdir -p /tmp/download && \
+    curl -L https://get.docker.com/builds/Linux/x86_64/docker-1.13.1.tgz | tar -xz -C /tmp/download && \
+    rm -rf /tmp/download/docker/dockerd && \
+    mv /tmp/download/docker/docker* /usr/local/bin && \
+    rm -rf /tmp/download && \
+    groupadd -g 0 docker && \
+    usermod -aG docker jenkins
+
+  user jenkins
+
+
+docker-machine ip
+
+docker pull jenkins/jenkins
+docker run -p 8080:8080 --name=jenkins-master jenkins/jenkins
+
+docker plugin
+docker build step
+
+java -jar jenkins.war --httpPort=8081
+
+docker run -d -p 80:80 docker/getting-started
+
+jenkins.exe start/stop/restart
+
+'maven-3.8.5
+
+https://github.com/Lovely1207/jenkins-docker-integration-sample
+->Java 16 docker build image issue
+  delete target folder 
+  build image with maven plugin issue for currency-exchange-service
+   =>Sol: java version 18  
+   
+-> targer release 18 issue
+   sol: add java18 in build configure path
+->to get docker container ip
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 32a9968fbddfb49637500b672a41978d11271327c6e3f6d1824c66af5092407b
+
+->To delete all container
+  docker container prune
+  
+-> to build docker image spring-boot:build-image -DskipTests
+  
+  Images -> static templete -> set of bytes
+  Images is like a class
+  Container is like an object
+  
+  hostPort:containerPort
+  
+  docker run -p 5000:5000 repo/image
+  -d -> detached mode
+  -f -> follow logs
+  docker logs containerId
+  
+  docker container ls
+  docker container ls -a -> all container irrespective of container
+  docker container stop containerId
+  
+  docker system prune -a
+  
+  in28min/mmv2-currency-exchange-service:0.0.1-SNAPSHOT
+  
+  http://localhost:8000/currency-exchange/from/USD/to/INR
+  
+  docker pull openjdk:8u332-jre
+  
+  docker image build -t employee-producer .
+  docker container run --name exchange -p 8080:8080 -d currency-exchange-service
+  
+  to create docker image
+  ->create maven plugin
+  <configuration>
+					<image>
+						<name>in28min/mmv2-${project.artifactId}:${project.version}</name>
+					</image>
+					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
+				</configuration>
+				
+				/in28min/mmv2-currency-exchange-service:0.0.1-SNAPSHOT
+				
+						<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-compiler-plugin</artifactId>
+	<version>3.8.0</version>
+	<configuration>
+		<release>11</release>  <!--or <release>10</release> -->
+	</configuration>
+	<dependencies>
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>6.2</version> <!-- Use newer version of ASM -->
+		</dependency>
+				
+ [currency-exchange,b85fca8bb0d112e9,b85fca8bb0d112e9] 20516 --- [nio-8000-exec-5] c.i.m.c.CurrencyExchangeController       : retrieveExchangeValue called with USD to INR
+Hibernate: select currencyex0_.id as id1_0_, currencyex0_.conversion_multiple as conversi2_0_, currencyex0_.environment as environm3_0_, currencyex0_.currency_from as currency4_0_, currencyex0_.currency_to as currency5_0_ from currency_exchange currencyex0_ where currencyex0_.currency_from=? and currencyex0_.currency_to=?
+2022-06-09 22:09:04.255  INFO [currency-exchange,,] 20516 --- [trap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+
+
+1. to install docker compose
+https://docs.docker.com/compose/install
+
+docker tag mmv2-naming-server lovely12/in28min:mmv2-naming-server
+
+docker tag in28min/mmv2-naming-server lovely12/in28min:0.0.1-SNAPSHOT
+
+2.to tag image
+https://stackoverflow.com/questions/41984399/denied-requested-access-to-the-resource-is-denied-docker
+->docker push in28min/mmv2-api-gateway:0.0.1-SNAPSHOT(not working)
+
+->docker tag cb3cab43b6b2 lovely12/in28min/mmv2-apigateway:api-gateway
+->docker push lovely12/in28min:api-gateway
+
+docker tag <existing-image> <hub-user>/<repo-name>[:<tag>]
+docker tag kubernates/mmv2-currency-exchange-service lovely12/kubernates:mmv2-currency-exchange-service
+>docker tag kubernates/mmv2-currency-exchange-service:0.0.11-SNAPSHOT lovely12/kubernates:mmv2-currency-exchange-service
+
+ docker push <hub-user>/<repo-name>:<tag>
+docker push lovely12/kubernates:mmv2-currency-exchange-service
+>docker push lovely12/kubernates:mmv2-currency-exchange-service
+
+Dcontainer.mainClass=com.in28minutes.microservices.currencyconversionservice.CurrencyConversionServiceApplication
